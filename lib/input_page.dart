@@ -1,4 +1,14 @@
+import 'package:bmi_calculator/contants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'card_details.dart';
+import 'my_container.dart';
+
+enum Gender {
+  male,
+  female,
+}
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -8,57 +18,157 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('BMI CALCULATOR'),
-        centerTitle: true,
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              MyContainer(),
-              MyContainer(),
-            ],
-          ),
-          Row(
-            children: const [MyContainer()],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              MyContainer(),
-              MyContainer(),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MyContainer extends StatelessWidget {
-  const MyContainer({
-    Key? key,
-  }) : super(key: key);
+  Gender? selectedGender;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(15.0),
-        width: 170.0,
-        height: 200.0,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: const Color(0xFF111428)),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('BMI CALCULATOR'),
+          centerTitle: true,
+        ),
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: MyContainer(
+                      onpress: () {
+                        setState(() {
+                          selectedGender = Gender.male;
+                        });
+                      },
+                      color: selectedGender == Gender.male
+                          ? kActiveCardColor
+                          : kInactiveCardColor,
+                      cardWidget: const CardDetails(
+                        icon: FontAwesomeIcons.mars,
+                        data: 'MALE',
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: MyContainer(
+                        onpress: () {
+                          setState(() {
+                            selectedGender = Gender.female;
+                          });
+                        },
+                        color: selectedGender == Gender.female
+                            ? kActiveCardColor
+                            : kInactiveCardColor,
+                        cardWidget: const CardDetails(
+                          data: 'FEMALE',
+                          icon: FontAwesomeIcons.venus,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: MyContainer(
+                      onpress: () {},
+                      cardWidget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'HEIGHT',
+                            style: kLabelText,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text(
+                                height.toString(),
+                                style: kNumberTextStyle,
+                              ),
+                              const Text(
+                                'cm',
+                                style: kLabelText,
+                              )
+                            ],
+                          ),
+                          Slider(
+                              value: height.toDouble(),
+                              min: 120.0,
+                              max: 220.0,
+                              activeColor: kActiveColorSlider,
+                              inactiveColor: kInactiveColorSlider,
+                              onChanged: (double newValue) {
+                                setState(() {
+                                  height = newValue.round();
+                                });
+                              })
+                        ],
+                      ),
+                      color: kActiveCardColor,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: MyContainer(
+                      onpress: () {},
+                      cardWidget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.mars,
+                            size: 80.0,
+                          ),
+                          Text(
+                            'Mela',
+                            style: TextStyle(color: Color(0xff8E8F99)),
+                          )
+                        ],
+                      ),
+                      color: kActiveCardColor,
+                    ),
+                  ),
+                  Expanded(
+                    child: MyContainer(
+                      onpress: () {},
+                      cardWidget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.mars,
+                            size: 80.0,
+                          ),
+                          Text(
+                            'Mela',
+                            style: TextStyle(color: Color(0xff8E8F99)),
+                          )
+                        ],
+                      ),
+                      color: kActiveCardColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: kButtonColor,
+              width: double.infinity,
+              height: kButtonContainarHeight,
+            )
+          ],
+        ),
       ),
     );
   }
