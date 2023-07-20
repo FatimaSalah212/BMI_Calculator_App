@@ -4,7 +4,9 @@ const kButtonContainarHeight = 80.0;
 const Color kInactiveCardColor = Color(0xFF111428);
 const Color kActiveCardColor = Color(0xff1D1F33);
 const Color kButtonColor = Color(0xFFEB1555);
-const Color kActiveColorSlider = Color(0xFFEB1555);
+const Color kThumbColor = kButtonColor;
+const Color kOverlayColor = Color(0x29EB1555);
+const Color kActiveColorSlider = Color(0xFFFFFFFF);
 const Color kInactiveColorSlider = Color(0xFF8D8E98);
 
 const kLabelText = TextStyle(

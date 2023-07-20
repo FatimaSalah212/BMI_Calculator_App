@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/contants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'card_details.dart';
@@ -20,6 +21,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
   int height = 180;
+  int weight = 60;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -98,17 +101,27 @@ class _InputPageState extends State<InputPage> {
                               )
                             ],
                           ),
-                          Slider(
-                              value: height.toDouble(),
-                              min: 120.0,
-                              max: 220.0,
-                              activeColor: kActiveColorSlider,
-                              inactiveColor: kInactiveColorSlider,
-                              onChanged: (double newValue) {
-                                setState(() {
-                                  height = newValue.round();
-                                });
-                              })
+                          SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              inactiveTrackColor: kInactiveColorSlider,
+                              activeTrackColor: kActiveColorSlider,
+                              thumbColor: kThumbColor,
+                              overlayColor: kOverlayColor,
+                              thumbShape: const RoundSliderThumbShape(
+                                  enabledThumbRadius: 15.0),
+                              overlayShape: const RoundSliderOverlayShape(
+                                  overlayRadius: 30.0),
+                            ),
+                            child: Slider(
+                                value: height.toDouble(),
+                                min: 120.0,
+                                max: 220.0,
+                                onChanged: (double newValue) {
+                                  setState(() {
+                                    height = newValue.round();
+                                  });
+                                }),
+                          )
                         ],
                       ),
                       color: kActiveCardColor,
@@ -126,15 +139,39 @@ class _InputPageState extends State<InputPage> {
                       onpress: () {},
                       cardWidget: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.mars,
-                            size: 80.0,
+                        children: [
+                          const Text(
+                            'WEIGHT',
+                            style: kLabelText,
                           ),
                           Text(
-                            'Mela',
-                            style: TextStyle(color: Color(0xff8E8F99)),
-                          )
+                            weight.toString(),
+                            style: kNumberTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RoundButton(
+                                icon: FontAwesomeIcons.minus,
+                                onpress: () {
+                                  setState(() {
+                                    weight--;
+                                  });
+                                },
+                              ),
+                              const SizedBox(
+                                width: 15.0,
+                              ),
+                              RoundButton(
+                                icon: FontAwesomeIcons.plus,
+                                onpress: () {
+                                  setState(() {
+                                    weight++;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       color: kActiveCardColor,
@@ -145,15 +182,39 @@ class _InputPageState extends State<InputPage> {
                       onpress: () {},
                       cardWidget: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.mars,
-                            size: 80.0,
+                        children: [
+                          const Text(
+                            'AGE',
+                            style: kLabelText,
                           ),
                           Text(
-                            'Mela',
-                            style: TextStyle(color: Color(0xff8E8F99)),
-                          )
+                            age.toString(),
+                            style: kNumberTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RoundButton(
+                                icon: FontAwesomeIcons.minus,
+                                onpress: () {
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
+                              ),
+                              const SizedBox(
+                                width: 15.0,
+                              ),
+                              RoundButton(
+                                icon: FontAwesomeIcons.plus,
+                                onpress: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       color: kActiveCardColor,
@@ -170,6 +231,26 @@ class _InputPageState extends State<InputPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class RoundButton extends StatelessWidget {
+  const RoundButton({super.key, required this.icon, required this.onpress});
+
+  final IconData icon;
+  final VoidCallback onpress;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onpress,
+      constraints: const BoxConstraints.tightFor(
+        width: 56.0,
+        height: 56.0,
+      ),
+      shape: const CircleBorder(),
+      fillColor: const Color(0xFF4C4F5E),
+      child: Icon(icon),
     );
   }
 }
