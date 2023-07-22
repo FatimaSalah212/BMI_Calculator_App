@@ -6,15 +6,21 @@ import '../components/bottom_button.dart';
 import '../components/my_container.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({super.key});
+  const ResultPage(
+      {super.key,
+      required this.bmiResult,
+      required this.resultText,
+      required this.interpretation});
 
+  final String bmiResult;
+  final String resultText;
+  final String interpretation;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('BMI CALCULATOR'),
         centerTitle: true,
-        // leading: const Icon(FontAwesomeIcons.bars),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -37,18 +43,19 @@ class ResultPage extends StatelessWidget {
                 cardWidget: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      'Normal',
+                      resultText.toUpperCase(),
                       style: kTitleTextStyle,
                     ),
                     Text(
-                      '22.1',
+                      bmiResult,
                       style: kBMIResultTextStyle,
                     ),
                     Text(
-                      'You Have Normal Body Weight.',
+                      interpretation,
                       style: kBodyTextStyle,
+                      textAlign: TextAlign.center,
                     )
                   ],
                 ),
